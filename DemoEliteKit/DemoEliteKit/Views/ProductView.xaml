@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ek="clr-namespace:eliteKit.eliteElements;assembly=eliteKit"
+             xmlns:converters="clr-namespace:DemoEliteKit.Converters"
+             xmlns:vm="clr-namespace:DemoEliteKit.ViewModels"
+             x:Class="DemoEliteKit.Views.ProductView"
+             mc:Ignorable="d">
+
+    <ContentPage.BindingContext>
+        <vm:ProductViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <ek:eliteHeader ColorPrimary="{StaticResource MainColor}" 
+                            ColorSecondary="{StaticResource AuxColor}"
+                            VerticalOptions="Start"
+                            HeightRequest="75">
+                <ek:eliteHeader.HeaderView>
+                    <Image Source="{Binding HeaderImage}" 
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           HeightRequest="84"
+                           WidthRequest="75"/>
+                </ek:eliteHeader.HeaderView>
+            </ek:eliteHeader>
+
+            <ek:eliteLoaderRadial IsVisible="{Binding IsBusy}"
+                                  ColorPrimary="{StaticResource MainColor}"
+                                  ColorSecondary="{StaticResource AuxColor}"
+                                  VerticalOptions="Center"
+                                  HorizontalOptions="Center"
+                                  IsGradient="True"
+                                  HeightRequest="50"
+                                  WidthRequest="50"/>
+
+            <ScrollView>
+                <Grid Margin="10" IsVisible="{Binding IsBusy, 
+                            Converter={StaticResource InverseBoolConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           VerticalOptions="Center"
+                           Text="Product Name"/>
+
+                    <Entry Grid.Row="0"
+                           Grid.Column="1"
+                           Text="{Binding ProductName}"
+                           BackgroundColor="{StaticResource MainColor}"
+                           TextColor="White"
+                           VerticalOptions="Center"/>
+
+                    <Label Grid.Row="1"
+                           Grid.Column="0"
+                           VerticalOptions="Center"
+                           Text="Product Stock"/>
+
+                    <ek:eliteSlider Grid.Row="1"
+                                    Grid.Column="1"
+                                    x:Name="stockSlider"
+                                    CurrentValue="{Binding ProductStock}"
+                                    ColorSliderBar="{StaticResource AuxColor}"
+                                    ColorSliderBarActive="{StaticResource MainColor}"
+                                    ColorThumb="{StaticResource MainColor}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="200"
+                                    HeightRequest="50"
+                                    MinValue="0"
+                                    MaxValue="10"/>
+
+                    <ek:eliteBadge Grid.Row="1"
+                                   Grid.Column="2"
+                                   ContentBadge="{Binding Source={x:Reference stockSlider}, 
+                                        Path=CurrentValue}"
+                                   x:Name="badge"
+                                   BadgeDirection="TopRight"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+
+                    <Label Grid.Row="2"
+                           Grid.Column="0"
+                           VerticalOptions="Center"
+                           Text="Category"/>
+
+                    <StackLayout Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
+                        <StackLayout Orientation="Horizontal">
+                            <ek:eliteRadiobutton IsChecked="{Binding IsTechnology}"
+                                                 Style="{StaticResource ek_rbStyle}"
+                                                 x:Name="rbTechnology">
+                                <ek:eliteRadiobutton.Triggers>
+                                    <DataTrigger TargetType="ek:eliteRadiobutton" 
+                                                 Binding="{Binding Source={x:Reference rbFood}, Path=IsChecked}" 
+                                                 Value="True">
+                                        <Setter Property="IsChecked" Value="False"/>
+                                    </DataTrigger>
+                                </ek:eliteRadiobutton.Triggers>
+                            </ek:eliteRadiobutton>
+
+                            <Label Text="Technology" VerticalOptions="Center"/>
+
+                            <ek:eliteRadiobutton IsChecked="{Binding IsFood}"
+                                                 Style="{StaticResource ek_rbStyle}"
+                                                 x:Name="rbFood"
+                                                 Margin="10,0,0,0">
+                                <ek:eliteRadiobutton.Triggers>
+                                    <DataTrigger TargetType="ek:eliteRadiobutton" 
+                                                 Binding="{Binding Source={x:Reference rbTechnology}, Path=IsChecked}"
+                                                 Value="True">
+                                        <Setter Property="IsChecked" Value="False"/>
+                                    </DataTrigger>
+                                </ek:eliteRadiobutton.Triggers>
+                            </ek:eliteRadiobutton>
+
+                            <Label Text="Food" VerticalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+
+                    <Label Grid.Row="3"
+                           Grid.Column="0"
+                           VerticalOptions="Center"
+                           Text="Discontinued?"/>
+
+                    <ek:eliteCheckbox Grid.Row="3"
+                                      Grid.Column="1"
+                                      IsChecked="{Binding Discontinued}"
+                                      ColorUnchecked="{StaticResource AuxColor}"
+                                      ColorChecked="{StaticResource MainColor}"
+                                      ColorHighlighted="{StaticResource MainColor}"
+                                      ColorIcon="White"
+                                      WidthRequest="50"
+                                      HeightRequest="50"
+                                      VerticalOptions="Center"
+                                      HorizontalOptions="Start"
+                                      HasShadow="True"/>
+
+                    <StackLayout Grid.Row="4"
+                                 Grid.Column="0"
+                                 Grid.ColumnSpan="3">
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                            <ek:eliteButtonOutline ButtonClickCommand="{Binding ValidateCommand}"
+                                                   ColorPrimary="{StaticResource MainColor}"
+                                                   ColorSecondary="{StaticResource AuxColor}"
+                                                   WidthRequest="150"
+                                                   HeightRequest="60"
+                                                   ColorText="White"
+                                                   IsGradient="True"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"
+                                                   ButtonTitle="Validate"/>
+
+                            <ek:eliteButton IsEnabled="{Binding IsValid}"
+                                            ButtonClickCommand="{Binding RegisterCommand}"
+                                            WidthRequest="150"
+                                            HeightRequest="60"
+                                            ColorText="White"
+                                            IsGradient="True"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center"
+                                            ButtonTitle="Register"
+                                            Margin="10,0,0,0">
+                                <ek:eliteButton.Triggers>
+                                    <DataTrigger TargetType="ek:eliteButton" Binding="{Binding IsValid}" Value="false">
+                                        <Setter Property="ColorPrimary" Value="{StaticResource DeActivatedMainColor}"/>
+                                        <Setter Property="ColorSecondary" Value="{StaticResource DeActivatedAuxColor}"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="ek:eliteButton" Binding="{Binding IsValid}" Value="true">
+                                        <Setter Property="ColorPrimary" Value="{StaticResource MainColor}"/>
+                                        <Setter Property="ColorSecondary" Value="{StaticResource AuxColor}"/>
+                                    </DataTrigger>
+                                </ek:eliteButton.Triggers>
+                            </ek:eliteButton>
+                        </StackLayout>
+                    </StackLayout>
+
+                    <ek:eliteProgressBar Grid.Row="5"
+                                         Grid.Column="0"
+                                         Grid.ColumnSpan="3"
+                                         ColorPrimary="{StaticResource MainColor}"
+                                         ColorSecondary="{StaticResource AuxColor}"
+                                         ColorBackground="LightGray"
+                                         IsGradient="True"
+                                         CurrentValue="{Binding SaveProgress}">
+                        <ek:eliteProgressBar.Triggers>
+                            <DataTrigger TargetType="ek:eliteProgressBar"
+                                         Binding="{Binding SaveProgress}" Value="0">
+                                <Setter Property="IsVisible" Value="False"/>
+                            </DataTrigger>
+                        </ek:eliteProgressBar.Triggers>
+                    </ek:eliteProgressBar>
+
+                    <Label Grid.Row="5"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="3"
+                           Text="{Binding SaveProgress, StringFormat='Saving... {0}%'}"
+                           TextColor="DarkGreen"
+                           FontAttributes="Bold"
+                           FontSize="Large"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label"
+                                         Binding="{Binding SaveProgress}"
+                                         Value="0">
+                                <Setter Property="IsVisible"
+                                        Value="False"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Grid>
+            </ScrollView>
+
+            <ek:eliteFooter ColorPrimary="{StaticResource MainColor}" 
+                            ColorSecondary="{StaticResource AuxColor}"
+                            VerticalOptions="EndAndExpand"
+                            HeightRequest="75">
+                <ek:eliteFooter.FooterView>
+                    <Image Source="{Binding FooterImage}" 
+                           WidthRequest="75" 
+                           HeightRequest="75"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+                </ek:eliteFooter.FooterView>
+            </ek:eliteFooter>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

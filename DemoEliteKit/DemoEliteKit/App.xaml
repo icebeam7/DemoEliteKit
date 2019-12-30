@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ek="clr-namespace:eliteKit.eliteElements;assembly=eliteKit"
+             mc:Ignorable="d"
+             x:Class="DemoEliteKit.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="MainColor">#F12711</Color>
+            <Color x:Key="AuxColor">#F5AF19</Color>
+
+            <Color x:Key="DeActivatedMainColor">#2C3E50</Color>
+            <Color x:Key="DeActivatedAuxColor">#BDC3C7</Color>
+
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="#FF0099"/>
+            </Style>
+            
+            <Style x:Key="ek_rbStyle" TargetType="ek:eliteRadiobutton">
+                <Setter Property="ColorUnchecked" Value="{StaticResource AuxColor}"/>
+                <Setter Property="ColorChecked" Value="{StaticResource MainColor}"/>
+                <Setter Property="ColorHighlighted" Value="{StaticResource MainColor}"/>
+                <Setter Property="ColorIcon" Value="White"/>
+                <Setter Property="WidthRequest" Value="50"/>
+                <Setter Property="HeightRequest" Value="50"/>
+                <Setter Property="HasShadow" Value="True"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="HorizontalOptions" Value="Start"/>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
